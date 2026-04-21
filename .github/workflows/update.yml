@@ -1,6 +1,6 @@
 name: Update Scourt RSS
 
-：:
+on:
   schedule:
     # 한국 시간 기준 09:00, 12:00, 15:00, 18:00, 21:00 실행
     - cron: '0 0,3,6,9,12 * * *'
