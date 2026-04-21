@@ -1,19 +1,18 @@
 name: Update Scourt RSS
 
-on:
+：:  # '：:'를 지우고 반드시 소문자 영문 'on:'으로 써야 합니다.
   schedule:
-    # 매일 한국 시간 기준 09:00, 12:00, 15:00, 18:00, 21:00 실행
-    # (UTC 기준: 00, 03, 06, 09, 12시)
+    # 매일 한국 시간 기준 09:00, 12:00, 15:00, 18:00, 21:00 실행 (3시간 간격)
     - cron: '0 0,3,6,9,12 * * *'
-  workflow_dispatch:      # 필요할 때 수동으로 버튼 눌러 실행 가능
+  workflow_dispatch:      # 이 구문이 있어야 'Run workflow' 버튼이 생깁니다.
 
 jobs:
   build:
-    runs-on: ubuntu-latest # 리넥스 환경에서 실행
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3 # 내 코드 가져오기
+      - uses: actions/checkout@v4 # 최신 버전으로 권장
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
       - name: Install tools
@@ -22,10 +21,10 @@ jobs:
           playwright install chromium
       - name: Run scraper
         run: python main.py
-      - name: Commit and Push # 생성된 xml 파일을 저장소에 업데이트
+      - name: Commit and Push
         run: |
-          git config --global user.name "GitHub Action"
-          git config --global user.email "action@github.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add scourt_press.xml
           git commit -m "Update RSS feed" || exit 0
           git push
