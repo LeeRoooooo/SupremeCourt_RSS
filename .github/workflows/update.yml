@@ -1,0 +1,29 @@
+name: Update Scourt RSS
+
+：:
+  schedule:
+    - cron: '0 0,12 * * *' # 하루 두 번(0시, 12시) 자동으로 실행 (UTC 기준)
+  workflow_dispatch:      # 필요할 때 수동으로 버튼 눌러 실행 가능
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # 리넥스 환경에서 실행
+    steps:
+      - uses: actions/checkout@v3 # 내 코드 가져오기
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install tools
+        run: |
+          pip install -r requirements.txt
+          playwright install chromium
+      - name: Run scraper
+        run: python main.py
+      - name: Commit and Push # 생성된 xml 파일을 저장소에 업데이트
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git add scourt_press.xml
+          git commit -m "Update RSS feed" || exit 0
+          git push
