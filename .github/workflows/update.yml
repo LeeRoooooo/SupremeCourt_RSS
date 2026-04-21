@@ -15,11 +15,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v5 # v4에서 v5로 업데이트
-
       - name: Set up Python
         uses: actions/setup-python@v5 # v5 유지 또는 최신 확인
           python-version: '3.10' # 버전을 명시하여 경고를 제거합니다.
-
       - name: Install tools
         run: |
           pip install playwright feedgen
