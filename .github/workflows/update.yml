@@ -1,10 +1,10 @@
 name: Update Scourt RSS
 
-on:
+：:
   schedule:
-    # 매일 한국 시간 기준 09:00, 12:00, 15:00, 18:00, 21:00 실행 (UTC 기준 00, 03, 06, 09, 12시)
+    # 한국 시간 기준 09:00, 12:00, 15:00, 18:00, 21:00 실행
     - cron: '0 0,3,6,9,12 * * *'
-  workflow_dispatch:      # 수동 실행 버튼 활성화
+  workflow_dispatch:
 
 jobs:
   build:
@@ -17,12 +17,12 @@ jobs:
 
       - name: Set up Python
         uses: actions/setup-python@v5
-        with: # <--- 이 키워드가 반드시 있어야 합니다!
+        with:
           python-version: '3.10'
 
       - name: Install tools
         run: |
-          pip install playwright feedgen
+          pip install -r requirements.txt
           playwright install chromium
           
       - name: Run scraper
@@ -32,6 +32,5 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scourt_press.xml
-          # 변경사항이 있을 때만 커밋하도록 방어 코드 추가
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Update RSS feed" && git push)
+          git add scourt_integrated.xml
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update integrated RSS feed" && git push)
