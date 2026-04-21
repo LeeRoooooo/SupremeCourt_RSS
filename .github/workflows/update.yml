@@ -1,6 +1,6 @@
 name: Update Scourt RSS
 
-on:
+：:
   schedule:
     # 매일 한국 시간 기준 09:00, 12:00, 15:00, 18:00, 21:00 실행
     - cron: '0 0,3,6,9,12 * * *'
@@ -18,10 +18,11 @@ jobs:
 
       - name: Set up Python
         uses: actions/setup-python@v5 # v5 유지 또는 최신 확인
+          python-version: '3.10' # 버전을 명시하여 경고를 제거합니다.
 
       - name: Install tools
         run: |
-          pip install -r requirements.txt
+          pip install playwright feedgen
           playwright install chromium
       - name: Run scraper
         run: python main.py
